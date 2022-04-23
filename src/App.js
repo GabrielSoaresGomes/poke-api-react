@@ -18,6 +18,7 @@ const App = () => {
       setEncontrado(true)
     }catch(error) {
       setEncontrado(false)
+      return
     }
   }
 
@@ -38,34 +39,35 @@ const App = () => {
       </form>
       {dadosPokemon.map((dados) => {
         return (
-          <div className="container"> 
+          <div key={dados.id} className="container"> 
             {encontrado && (
-              <table className="table">
-                <thead><img src={dados.sprites.front_default} alt={`Imagem do ${pokemon}`} /></thead>
-                <tbody>
-                  <tr>
-                    <td>Tipo: </td>
-                    <td>{tipoPokemon}</td>
-                  </tr>
-                  <tr>
-                    <td>Altura: </td>
-                    <td>{(dados.height/10 ).toFixed(2)}m</td>
-                  </tr>
-                  <tr>
-                    <td>Peso: </td>
-                    <td>{(dados.weight/10).toFixed(2)}KG</td>
-                  </tr>
-                  <tr>
-                    <td>Número de batalha: </td>
-                    <td>{dados.game_indices.length}</td>
-                  </tr>
-                </tbody>
-              </table>)}
-              {!encontrado && <h1>Não foi possível encontrar um resultado para {pokemon} </h1>}
-             
+              <div>
+                <img src={dados.sprites.front_default} alt={`Imagem do ${pokemon}`} />
+                <table className="table">                
+                  <tbody>
+                    <tr>
+                      <td>Tipo: </td>
+                      <td>{tipoPokemon}</td>
+                    </tr>
+                    <tr>
+                      <td>Altura: </td>
+                      <td>{(dados.height/10 ).toFixed(2)}m</td>
+                    </tr>
+                    <tr>
+                      <td>Peso: </td>
+                      <td>{(dados.weight/10).toFixed(2)}KG</td>
+                    </tr>
+                    <tr>
+                      <td>Número de batalha: </td>
+                      <td>{dados.game_indices.length}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>)}             
           </div> 
         )
       })}
+      {!encontrado && (<h2>Não foi possível encontrar um resultado! </h2>)}
     </div>
   );
 }
