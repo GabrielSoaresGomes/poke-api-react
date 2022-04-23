@@ -5,6 +5,7 @@ const App = () => {
   const [pokemon, setPokemon] = useState("charmander")
   const [dadosPokemon, setDadosPokemon] = useState([])
   const [tipoPokemon, setTipoPokemon] = useState("")
+  const [encontrado, setEncontrado] = useState(false)
 
   const getPoke = async() => {
     const pokeArray = []
@@ -14,16 +15,15 @@ const App = () => {
       pokeArray.push(response.data)
       setTipoPokemon(response.data.types[0].type.name)
       setDadosPokemon(pokeArray)
-      console.log(response)
+      setEncontrado(true)
     }catch(error) {
-      console.log(error)
+      setEncontrado(false)
     }
   }
 
   const buscarPoke = (e) => {
     e.preventDefault()
     getPoke()
-    console.log(dadosPokemon)
   }
 
   const changePokemon = (e) => {
@@ -39,29 +39,31 @@ const App = () => {
       {dadosPokemon.map((dados) => {
         return (
           <div className="container"> 
-            <img />
-            <table className="table">
-              <thead></thead>
-              <tbody>
-                <tr>
-                  <td>Tipo: </td>
-                  <td>{tipoPokemon}</td>
-                </tr>
-                <tr>
-                  <td>Altura: </td>
-                  <td>{(dados.height/10 ).toFixed(2)}m</td>
-                </tr>
-                <tr>
-                  <td>Peso: </td>
-                  <td>{(dados.weight/10).toFixed(2)}KG</td>
-                </tr>
-                <tr>
-                  <td>Número de batalha: </td>
-                  <td>{dados.game_indices.length}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+            {encontrado && (
+              <table className="table">
+                <thead><img src={dados.sprites.front_default} alt={`Imagem do ${pokemon}`} /></thead>
+                <tbody>
+                  <tr>
+                    <td>Tipo: </td>
+                    <td>{tipoPokemon}</td>
+                  </tr>
+                  <tr>
+                    <td>Altura: </td>
+                    <td>{(dados.height/10 ).toFixed(2)}m</td>
+                  </tr>
+                  <tr>
+                    <td>Peso: </td>
+                    <td>{(dados.weight/10).toFixed(2)}KG</td>
+                  </tr>
+                  <tr>
+                    <td>Número de batalha: </td>
+                    <td>{dados.game_indices.length}</td>
+                  </tr>
+                </tbody>
+              </table>)}
+              {!encontrado && <h1>Não foi possível encontrar um resultado para {pokemon} </h1>}
+             
+          </div> 
         )
       })}
     </div>
