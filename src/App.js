@@ -1,11 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import axios from 'axios'
+
+import './App.css'
 
 const App = () => {
   const [pokemon, setPokemon] = useState("charmander")
   const [dadosPokemon, setDadosPokemon] = useState([])
   const [tipoPokemon, setTipoPokemon] = useState("")
   const [encontrado, setEncontrado] = useState(false)
+  const [spritePoke, setSpritePoke] = useState()
 
   const getPoke = async() => {
     const pokeArray = []
@@ -32,19 +35,24 @@ const App = () => {
   }
 
   return (
-    <div className="App">
+    <div className="app">
       <form onSubmit={buscarPoke}>
         <label></label>
-        <input type="text" placeholder="Insira um pokemon" onChange={changePokemon} />
+        <input type="text" placeholder="Insira um pokemon..." onChange={changePokemon} />
       </form>
       {dadosPokemon.map((dados) => {
         return (
           <div key={dados.id} className="container"> 
             {encontrado && (
-              <div>
-                <img src={dados.sprites.front_default} alt={`Imagem do ${pokemon}`} />
+              <div className="dados">
+                <img src={dados.sprites.front_default} name="img-default" alt={`Imagem do ${pokemon}`} />
+                <img src={dados.sprites.front_shiny} name="img-shiny" alt={`Imagem Shiny do ${pokemon}`} />
                 <table className="table">                
                   <tbody>
+                  <tr>
+                      <td>ID: </td>
+                      <td>{dados.id}</td>
+                    </tr>
                     <tr>
                       <td>Tipo: </td>
                       <td>{tipoPokemon}</td>
